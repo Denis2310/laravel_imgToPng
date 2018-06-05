@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 Use App\Image;
 use Intervention\Image\Facades\Image as Img;
 use Illuminate\Support\Facades\File;
-use Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -46,34 +46,28 @@ class ImageController extends Controller
 		$user = Auth::user();
 		$time = time();
 		
-		//Definiranje foldera za slike
-		$target_directory = "user_images/".$user->id."/";
-		$target_directory_png = "user_images/".$user->id."/png/";
+		$image = $request->file('image');
+		$image_name = $time . $image->getClientOriginalName();
+		$image_name_without_extension = pathinfo($image_name, PATHINFO_FILENAME);
+		$image_name_png = $image_name_without_extension .'.png';
+		//Pretvaranje originalne slike u png
+		$png_image = (string) Img::make($image)->encode('png');
 
-		//Ako ne postoji, kreiraj png folder
-		if(!File::exists($target_directory_png)) {
-    		File::makeDirectory($target_directory_png, 775, true);
-		}
+		//Spremanje originalne slike i png slike
+		Storage::put('public/images/'.$user->id.'/'.$image_name, file_get_contents($image));
+		Storage::put('public/images/'.$user->id.'/png/'.$image_name_png, $png_image);
 
-		//Dohvaćanje podataka o slici
-		$file = $request->file('image');
-		$file_name = $time . $file->getClientOriginalName();
-		$file_name_without_extension = pathinfo($file_name, PATHINFO_FILENAME);
-		$file_name_png = $file_name_without_extension .'.png';
-		
-		//Spremanje png i originalne slike na server
-		$png_image =Img::make($file);
-		$png_image->save($target_directory_png . $file_name_png);
-		$file->move($target_directory, $file_name);
 
 		//Spremanje podataka o slici u bazu
-		$image = new Image;
-    	$image->path = $file_name_png;
-    	$image->user_id = $user->id;
-    	$image->extension = $file->getClientOriginalExtension();
-    	$image->size = $file->getClientSize();
-    	$image->png_size = $png_image->fileSize();
-    	$image->save();
+		$db_image = new Image;
+    	$db_image->path = $image_name_png;
+    	$db_image->user_id = $user->id;
+    	$db_image->extension = $image->getClientOriginalExtension();
+    	$db_image->size = $image->getClientSize();
+    	$db_image->png_size = strlen($png_image);
+    	$db_image->save();
 		return redirect('/images');
 	}
 }
+
+//Storage::size('public/images/'.$user->id.'/png/'.$image_name_png);

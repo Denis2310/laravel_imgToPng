@@ -16,13 +16,13 @@
     <th>Role</th>
   </tr>
   @foreach($users as $user)
-    <tr data-url="{{route('users.edit', $user->id)}}">
+    <tr class="clickable" data-url="{{route('users.edit', $user->id)}}">
       <td>{{$user->id}}</td>
       <td>{{$user->name}}</td>
       <td>{{$user->email}}</td>
       <td>{{count($user->images)}}</td>
       <td>{{$user->created_at->format('H:m:s, d.M.Y')}}</td>
-      <td>{{$user->role->name}}</td>
+      <td class="td_user_role">{{$user->role->name}}</td>
     </tr>
   @endforeach
 </table>

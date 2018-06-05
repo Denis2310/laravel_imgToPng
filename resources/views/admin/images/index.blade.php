@@ -8,7 +8,7 @@
 <div class="images-container">
   @foreach($images as $image)
   <div class="images-container-item">
-  	<img src="/user_images/{{$image->user->id}}/png/{{$image->path}}" alt="{{$image->path}}" height=100 width=150></img>
+  	<img src="/storage/images/{{$image->user->id}}/png/{{$image->path}}" alt="{{$image->path}}" height=100 width=150></img>
   </div>
   @endforeach
 </div>

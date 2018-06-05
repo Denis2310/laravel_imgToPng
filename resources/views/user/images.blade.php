@@ -10,7 +10,7 @@
 @foreach($images as $image)
 <div class="images-container-item"> <!--images-container-item-->
 
-   <a href="/images/{{$image->id}}"><img src="user_images/{{Auth::user()->id}}/png/{{$image->path}}" height=100 width=150></img></a>
+   <a href="/images/{{$image->id}}"><img src="storage/images/{{Auth::user()->id}}/png/{{$image->path}}" height=100 width=150></img></a>
 
 </div>
 @endforeach

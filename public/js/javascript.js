@@ -1,6 +1,6 @@
 
 //Funkcija za klik na usera u users tablici
-$('.users-table tr').click(function(){
+$('.users-table tr.clickable').click(function(){
 	window.location = $(this).data('url');
 });
 
