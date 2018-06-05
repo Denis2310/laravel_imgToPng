@@ -37,8 +37,14 @@ Route::resource('/admin/users', 'AdminUsersController');
 Route::resource('/admin/images', 'AdminImagesController');
 
 //ruta za formu za uploadanje slike
+
+Route::get('/images', 'ImageController@index');
+
+Route::get('/images/{image_id}', 'ImageController@show');
+
 Route::get('/upload', 'ImageController@upload');
 
 Route::post('/upload', 'ImageController@store');
 
 Route::get('/received', 'ImageController@received');
+

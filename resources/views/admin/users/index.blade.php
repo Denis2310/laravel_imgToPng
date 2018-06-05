@@ -3,6 +3,7 @@
 
 @section('main-content')
 <h2 align="center"> Registered users </h2>
+<hr>
 <div>
 @if($users)
 <table class="users-table">

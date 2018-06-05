@@ -10,6 +10,11 @@ a:hover{
 
 button{
 	color: rgba(0,0,0,.5);
+
+}
+
+button.btn{
+	border-radius: 0;
 }
 
 button:hover{
@@ -17,8 +22,15 @@ button:hover{
 }
 
 input[type="file"] {
-    display: none;
+	display: none;
 }
+ 
+.form-control:focus{
+	border-color: green; 
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
 
 
 					/********* Main navbar from app layout view ***********/
@@ -76,20 +88,26 @@ div.card-header{
 	background-color: LimeGreen;
 }
 
+div.card-header:first-child{
+	border-radius: 0;
+}
+
 
 					/******Left navigation bar******/
 .nav-home{
 	/*padding-right: 0px;
 	padding-left: 0px;*/
 	padding: 0;
+	min-height: calc(100vh - 75px);
+	background-color: white;
 }
 .nav-home ul{
 	margin-bottom: 0;
 	margin-right: 0;
-	height: calc(100vh - 75px);
+	/*height: calc(100vh - 75px);*/
+	height: auto;
 	padding: 0;
 	padding-top: 20px;
-	background-color: white;
 	list-style-type: none;
 }
 
@@ -120,6 +138,19 @@ div.upload-container .label{
 }
 
 /*****Main-content*****/
+
+/**Home view***/
+.home-nav{
+	padding: 0;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+.home-nav li{
+	display: inline;
+}
+
+
+/***My Images**/
 .images-container{
 	display: flex;
 	flex-wrap: wrap;
@@ -144,6 +175,7 @@ div.upload-container .label{
 	max-height: 100%;
 	border-radius: 2px;
 }
+
 
 /*******Main container some styles*********/
 .main-container{
@@ -170,9 +202,10 @@ div.upload-container .label{
 
 /***Users table admin view ***/
 
-.users-table{
+.users-table, .image-detail-table{
 	width: 100%;
 	border-collapse: collapse;
+	background-color: white;
 }
 
 td, th {
@@ -184,6 +217,12 @@ td, th {
 .users-table tr:not(:first-of-type):hover{ /*za hover tablice, bez prvog retka */
 	background-color: white;
 	cursor: pointer;
+	box-shadow: inset 0 0 1px 2px rgba(0, 256, 0, 0.3);
+	-webkit-box-shadow:inset 0 0 1px 2px rgba(0, 256, 0, 0.3);
+	-moz-box-shadow:inset 0 0 1px 2px rgba(0, 256, 0, 0.3);
+	-webkit-transition: all 200ms ease-out;
+	-moz-transition: all 200ms ease-out;
+	transition: all 200ms ease-out;
 }
 
 
@@ -217,5 +256,9 @@ td, th {
 	}
 	.nav-home li{
 		padding: 10px;
+	}
+
+	.navbar{
+		height: auto;
 	}
 }

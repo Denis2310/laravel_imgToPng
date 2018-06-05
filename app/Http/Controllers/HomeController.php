@@ -26,8 +26,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $images = $user->images;
-        return view('user.index', compact('images'));
+
+        return view('user.index');
     }
 }

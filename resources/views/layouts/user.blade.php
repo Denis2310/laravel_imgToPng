@@ -6,7 +6,7 @@
         <!-- left navigation bar -->
         <nav class="col-md-2 col-sm-4 nav-home">
             <ul>
-                <li><a href="/home">My Images</a></li>
+                <li><a href="/images">My Images</a></li>
                 <li><a href="/upload">Upload Image</a></li>
                 <li><a href="/received">Received</a></li>        
             </ul>

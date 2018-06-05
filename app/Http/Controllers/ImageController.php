@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 Use App\Image;
 use Intervention\Image\Facades\Image as Img;
 use Illuminate\Support\Facades\File;
+use Validator;
 
 class ImageController extends Controller
 {
@@ -17,6 +18,18 @@ class ImageController extends Controller
 		return $this->middleware('auth');
 	}
     
+    public function index(){
+
+    	$user = Auth::user();
+        $images = $user->images;
+        return view('user.images', compact('images'));
+    }
+
+    public function show($id){
+    	$image = Image::findOrFail($id);
+    	return view('user.show_image', compact('image'));
+    }
+
     public function upload(){
 
     	return view('user.upload');
@@ -29,12 +42,13 @@ class ImageController extends Controller
 
     // Prvo se provjerava UploadRequest i ako validacija prođe ulazi se u funkciju store
 	public function store(UploadRequest $request){
+
 		$user = Auth::user();
 		$time = time();
 		
 		//Definiranje foldera za slike
-		$target_directory = "images/".$user->id."/";
-		$target_directory_png = "images/".$user->id."/png/";
+		$target_directory = "user_images/".$user->id."/";
+		$target_directory_png = "user_images/".$user->id."/png/";
 
 		//Ako ne postoji, kreiraj png folder
 		if(!File::exists($target_directory_png)) {
@@ -47,16 +61,19 @@ class ImageController extends Controller
 		$file_name_without_extension = pathinfo($file_name, PATHINFO_FILENAME);
 		$file_name_png = $file_name_without_extension .'.png';
 		
-		//Spremanje originalne i png slike u foldere
-		Img::make($file)->save($target_directory_png . $file_name_png);
+		//Spremanje png i originalne slike na server
+		$png_image =Img::make($file);
+		$png_image->save($target_directory_png . $file_name_png);
 		$file->move($target_directory, $file_name);
 
 		//Spremanje podataka o slici u bazu
 		$image = new Image;
     	$image->path = $file_name_png;
-    	$image->extension = $file->getClientOriginalExtension();
     	$image->user_id = $user->id;
+    	$image->extension = $file->getClientOriginalExtension();
+    	$image->size = $file->getClientSize();
+    	$image->png_size = $png_image->fileSize();
     	$image->save();
-		return redirect('/home');
+		return redirect('/images');
 	}
 }

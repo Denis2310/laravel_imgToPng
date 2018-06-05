@@ -28,7 +28,7 @@
 
                 	   <div class="form-button-wrapper">
 
-                	   <button class="btn btn-primary"> Upload </button>
+                	   <button class="btn btn-primary" value="submit" onclick="buttonSubmit(this)"> Upload </button>
                 	   <!--<button class="btn btn-default"><a href="/home"> Back </a></button>-->
                         
                 	   </div>
