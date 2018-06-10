@@ -28,7 +28,7 @@ class LoginController extends Controller
             return redirect()->intended('/admin/users');
         }
 
-        return redirect()->intended('/home');
+        return redirect()->intended('/images');
     }
     /**
      * Where to redirect users after login.

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use Illuminate\Http\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,11 +22,10 @@ class UploadRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {   
-
         return [
-            'image' => 'required|mimes:jpeg,jpg,png,bmp|max:5000'
+            'file' => 'bail|required|mimes:jpeg,jpg,png,bmp,gif|max:5000'
         ];
     }
 }

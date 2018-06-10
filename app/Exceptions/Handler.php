@@ -34,6 +34,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+
         parent::report($exception);
     }
 
@@ -46,6 +47,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException)
+        {
+            return redirect()->back()->withErrors(['Invalid type of file.']);
+        }
+
         return parent::render($request, $exception);
     }
 }

@@ -13,11 +13,10 @@
 
                     <form method="post" action="{{action('ImageController@store')}}" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <label class="btn btn-default" for="inputImage"><span class="glyphicon glyphicon-file">Select image</span></label>
-                	   <input type="file" class="form-control-file" id="inputImage" name="image"></input>
-
+                        <label class="btn btn-secondary" for="inputImage">Select Image</label>
+                	   <input type="file" class="form-control-file" id="inputImage" name="file"></input>
                        @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger" onclick="remove(this)">
                                 <ul>
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -25,7 +24,7 @@
                                 </ul>
                             </div>
                         @endif
-
+                   
                 	   <div class="form-button-wrapper">
 
                 	   <button class="btn btn-primary" value="submit" onclick="buttonSubmit(this)"> Upload </button>

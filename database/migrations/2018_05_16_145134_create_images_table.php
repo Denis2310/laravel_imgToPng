@@ -18,7 +18,7 @@ class CreateImagesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('path');
             $table->string('extension');
-            $table->integer('size');
+            $table->integer('size')->nullable();
             $table->integer('png_size');
             $table->timestamps();
         });

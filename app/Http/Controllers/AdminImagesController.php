@@ -53,7 +53,8 @@ class AdminImagesController extends Controller
      */
     public function show($id)
     {
-        //
+        $image = Image::findOrFail($id);
+        return view('admin.images.show-image', compact('image'));
     }
 
     /**

@@ -22,7 +22,7 @@ Route::get('/', function(){
 			return redirect('admin/users');
 		}
 
-		return redirect('/home');
+		return redirect('/images');
 	}
 
 	return view('welcome');
@@ -30,17 +30,18 @@ Route::get('/', function(){
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/admin/users', 'AdminUsersController');
 
 Route::resource('/admin/images', 'AdminImagesController');
 
-//ruta za formu za uploadanje slike
-
-Route::get('/images', 'ImageController@index');
+//User routes
+Route::get('/images', 'ImageController@index')->name('home');
 
 Route::get('/images/{image_id}', 'ImageController@show');
+
+Route::delete('/images/{image_id}', 'ImageController@destroy')->name('images.destroy');
 
 Route::get('/upload', 'ImageController@upload');
 

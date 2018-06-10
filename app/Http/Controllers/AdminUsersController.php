@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminUsersController extends Controller
 {
@@ -52,7 +55,9 @@ class AdminUsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $images = $user->images;
+        return view('admin.users.show-user', compact('user', 'images'));
     }
 
     /**
@@ -63,8 +68,7 @@ class AdminUsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user'));
+
     }
 
     /**
@@ -87,6 +91,29 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(User::findOrFail($id)->isAdmin())
+        {
+            if(Auth::user()->id == $id)
+            {
+                return redirect()->back()->withErrors('You cannot delete yourself!.');
+            }
+
+            return redirect()->back()->withErrors('Administrator cannot be deleted!');
+        }
+
+        $images = Image::whereUser_id($id)->get();
+        if($images)
+        {
+            foreach($images as $image)
+            {
+                $image->delete();
+            }
+        }
+
+        User::findOrFail($id)->delete();
+        Storage::deleteDirectory('public/images/'.$id);
+
+        return redirect('/admin/users');
+
     }
 }
