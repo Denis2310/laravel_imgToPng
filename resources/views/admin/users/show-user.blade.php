@@ -19,11 +19,12 @@
 			<td>Email:</td>
 			<td>{{$user->email}}</td>
 		</tr>
+		@if($user->role_id == 2)
 		<tr>
 			<td>Uploaded images:</td>
 			<td>{{count($user->images)}}</td>
 		</tr>
-
+		@endif
 		<tr>
 			<td>Registration date:</td>
 			<td>{{$user->created_at->format('H:m:s, d.M.Y')}}</td>
@@ -47,10 +48,10 @@
                                 </ul>
                             </div>
                         @endif
-		<form method="post" action="{{route('users.destroy', $user->id)}}">
+		<form method="post" action="{{route('admin.users.destroy', $user->id)}}">
 			{{csrf_field()}}
 			<input type="hidden" name="_method" value="delete">
-			<button class="btn btn-danger delete-user-button" value="submit" onclick="buttonSubmit(this)">Delete user</button>
+			<button class="btn btn-danger btn-margin-15" value="submit" onclick="buttonSubmit(this)">Delete user</button>
 		</form>		
 	</div>
 </div>

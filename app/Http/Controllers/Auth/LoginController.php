@@ -25,10 +25,10 @@ class LoginController extends Controller
     public function authenticated($request, $user)
     {
         if(Auth::user()->role->name === 'Administrator') {
-            return redirect()->intended('/admin/users');
+            return redirect()->to('/admin/users');
         }
 
-        return redirect()->intended('/images');
+        return redirect()->to('/images');
     }
     /**
      * Where to redirect users after login.

@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="flex-container">
-    <h1 class="text-center welcome-heading">Welcome to ImageApp</h1>
+    <h1 class="text-center welcome-heading">Aplikacija za pretvorbu i razmjenu slikovnih datoteka</h1>
 
     	<div class="welcome">
     	<ul class="welcome-nav text-center">

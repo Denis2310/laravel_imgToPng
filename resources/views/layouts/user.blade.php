@@ -7,7 +7,7 @@
         <nav class="col-md-2 col-sm-4 nav-home">
             <ul>
                 <li><a href="/images">My Images</a></li>
-                <li><a href="/upload">Upload Image</a></li>
+                <li><a href="/images/create">Upload Image</a></li>
                 <li><a href="/received">Received</a></li>        
             </ul>
         </nav>

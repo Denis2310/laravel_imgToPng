@@ -6,25 +6,34 @@
 <hr>
 <div class="row">
 <div class="col-md-6">
-	<div class="images-container-item centered ml-auto">
+	<div class="images-container-item hoverable float-md-right mx-sm-auto">
    		<img src="/storage/images/{{$image->user_id}}/png/{{$image->path}}" height=100 width=150></img>
 	</div>
+
+	<!--Div za prikazivanje velike slike-->
+   	<div id="myModal" class="modal">
+   		<span class="close">&times;</span>
+   		<img class="modal-content" id="img01">
+   		<div id="caption"></div>
+   	</div>
+
 </div>
 	
 <div class="col-md-6 image-download-container">
 	<ul>
 		@if($image->extension != "png")
-		<li>Download {{$image->extension}}</li>
+		<li><a href="">Download {{strtoupper($image->extension)}}</a></li>
 		@endif
-		<li>Download PNG</li>
+		<li><a href="">Download PNG</a></li>
 	</ul>
 </div>
 </div>
-<div class="row col-md-8 offset-md-2">
+<div class="row">
+<div class="col-md-8 offset-md-2">
 	<table class="details-table table-bordered table-responsive">
 		<tr>
 			<td>Name:</td>
-			<td>{{$image->path}}</td>
+			<td>{{substr($image->path, 10)}}</td>
 		</tr>
 		<tr>
 			<td>Owner:</td>
@@ -50,9 +59,21 @@
 		</tr>
 	</table>
 </div>
-<div class="row">
-
 </div>
+<div class="row">
+	<div class=" col-md-8 offset-md-2">
+
+        <div class="row">
+
+        	<div class="col-md-12 show-image-buttons text-right">
+				<form method="post" action="{{route('admin.images.destroy', $image->id)}}">
+					{{csrf_field()}}
+					<input type="hidden" name="_method" value="delete">
+					<button class="btn btn-danger btn-margin-15" value="submit" onclick="buttonSubmit(this)">Delete image</button>
+				</form>	
+			</div>
+
+		</div>	<!-- row closing tag -->
 
 
 @endsection

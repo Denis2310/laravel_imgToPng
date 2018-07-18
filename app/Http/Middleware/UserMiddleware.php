@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Auth;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -14,16 +14,14 @@ class AdminMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-
-    //Provjerava da li je korisnik administrator, ako nije vraća ga nazad
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-
-        if(!$user->isAdmin())
+        if($user->isAdmin())
         {
             return redirect()->back();
         }
+
         return $next($request);
     }
 }

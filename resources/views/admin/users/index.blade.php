@@ -4,6 +4,13 @@
 @section('main-content')
 <h2 align="center"> Registered users </h2>
 <hr>
+  @if(Session::has('success'))
+  <div class="row">
+    <div class="col-md-4 alert alert-success ml-auto mr-auto text-center"> 
+      {{Session::get('success')}}
+    </div>
+  </div>
+  @endif
 <div class="row col-md-12 table-responsive">
 
 <table class="users-table">
@@ -16,7 +23,7 @@
   </tr>
   @if($users)
   @foreach($users as $user)
-    <tr class="clickable" data-url="{{route('users.show', $user->id)}}">
+    <tr class="clickable" data-url="{{route('admin.users.show', $user->id)}}">
       <td>{{$user->id}}</td>
       <td>{{$user->name}}</td>
       <td>{{$user->email}}</td>
@@ -28,6 +35,6 @@
 </table>
 </div>
 <div class="row col-md-12">
-    <button class="btn btn-primary ml-auto add-user-button"><a class="button-link-style" href="/admin/users/create"> Add User </a></button>
+    <button class="btn btn-primary ml-auto btn-margin-15"><a class="button-link-style" href="/admin/users/create"> Add User </a></button>
 </div>
 @endsection

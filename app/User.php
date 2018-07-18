@@ -37,12 +37,17 @@ class User extends Authenticatable
 
     //Provjera da li je user admin (Admin Middleware)
     public function isAdmin(){
-        if($this->role->name == "Administrator")
+
+       /* if($this->role->name == "Administrator")
         {
             return true;
         }
 
         return false;
-    }
+    }*/
+    // Ovo sam izmjenio treba provjeriti
+    return ($this->role->name == "Administrator") ? true : false;
+
+}
 
 }

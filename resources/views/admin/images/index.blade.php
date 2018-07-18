@@ -3,7 +3,7 @@
 
 @section('main-content')
 <h2 align="center"> Uploaded Images </h2>
-
+<hr>
 @if($images)
 <div class="images-container">
   @foreach($images as $image)

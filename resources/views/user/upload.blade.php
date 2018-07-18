@@ -11,7 +11,7 @@
 
                 <div class="card-body form-group">
 
-                    <form method="post" action="{{action('ImageController@store')}}" enctype="multipart/form-data">
+                    <form method="post" action="{{action('UserImagesController@store')}}" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <label class="btn btn-secondary" for="inputImage">Select Image</label>
                 	   <input type="file" class="form-control-file" id="inputImage" name="file"></input>

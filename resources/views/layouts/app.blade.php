@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'ImageApp') }}</title>
+    <title>ImageApp</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/jquery.js') }}" defer></script>
@@ -48,7 +48,7 @@
                             <li><a class="nav-link" href="{{ route('login') }}"><!--{{ __('Login') }}-->Login</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}"><!--{{ __('Register') }}-->Register</a></li>
                         @else
-                            <li><a class="nav-link" href="{{ route('home') }}"><!--{{ __('Login') }}-->Home</a></li>
+                            <li><a class="nav-link" href="{{ route('images.index') }}"><!--{{ __('Login') }}-->Home</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

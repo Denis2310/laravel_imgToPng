@@ -30,14 +30,28 @@ Route::get('/', function(){
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('/admin/users', 'AdminUsersController')->names([
+	'index' => 'admin.users.index',
+	'store' => 'admin.users.store',
+	'create' => 'admin.users.create',
+	'destroy' => 'admin.users.destroy',
+	'update' => 'admin.users.update',
+	'show' => 'admin.users.show',
+	'edit' => 'admin.users.edit'
+]);
 
-Route::resource('/admin/users', 'AdminUsersController');
-
-Route::resource('/admin/images', 'AdminImagesController');
+Route::resource('/admin/images', 'AdminImagesController')->names([
+	'index' => 'admin.images.index',
+	'store' => 'admin.images.store',
+	'create' => 'admin.images.create',
+	'destroy' => 'admin.images.destroy',
+	'update' => 'admin.images.update',
+	'show' => 'admin.images.show',
+	'edit' => 'admin.images.edit'
+]);
 
 //User routes
-Route::get('/images', 'ImageController@index')->name('home');
+/*Route::get('/images', 'ImageController@index')->name('home');
 
 Route::get('/images/{image_id}', 'ImageController@show');
 
@@ -45,7 +59,27 @@ Route::delete('/images/{image_id}', 'ImageController@destroy')->name('images.des
 
 Route::get('/upload', 'ImageController@upload');
 
-Route::post('/upload', 'ImageController@store');
+Route::post('/upload', 'ImageController@store');*/
 
-Route::get('/received', 'ImageController@received');
 
+Route::resource('/images', 'UserImagesController');
+
+
+/****SendReceiveImageController routes***/
+
+Route::get('/received', 'SendReceiveImageController@index');
+
+Route::get('/received/{image_id}', 'SendReceiveImageController@show');
+
+Route::post('/images/{image_id}', 'SendReceiveImageController@send')->name('images.send');
+
+Route::delete('/received/{image_id}', 'SendReceiveImageController@destroy')->name('received.destroy');
+
+
+/***DownloadController routes***/
+
+Route::get('/images/download/{image_id}', 'DownloadController@download_original');
+
+Route::get('/images/download/png/{image_id}/{isreceived?}', 'DownloadController@download_png');
+
+Route::get('/received/download/{image_id}', 'DownloadController@download_original_recv');

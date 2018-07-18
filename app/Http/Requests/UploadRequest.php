@@ -22,6 +22,8 @@ class UploadRequest extends FormRequest
      *
      * @return array
      */
+    
+    //Pravila za učitavanje datoteke
     public function rules(Request $request)
     {   
         return [
