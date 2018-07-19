@@ -106,6 +106,6 @@ class AdminImagesController extends Controller
         
         $image->delete();
         Session::flash('success', 'User image successfully deleted!');
-        return redirect('/admin/users');
+        return redirect('/admin/images');
     }
 }

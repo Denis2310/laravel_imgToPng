@@ -4,6 +4,15 @@
 @section('main-content')
 <h2 align="center"> Uploaded Images </h2>
 <hr>
+
+@if(Session::has('success'))
+ <div class="row">
+   <div class="col-md-4 alert alert-success ml-auto mr-auto text-center"> 
+     {{Session::get('success')}}
+   </div>
+ </div>
+@endif
+
 @if($images)
 <div class="images-container">
   @foreach($images as $image)

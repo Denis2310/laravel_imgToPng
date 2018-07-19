@@ -34,7 +34,7 @@ h4{
 }
 
 .form-control:focus{
-	border-color: green; 
+	border-color: DimGray; 
     -webkit-box-shadow: none;
     box-shadow: none;
 }
@@ -65,12 +65,16 @@ div.alert ul{
 
 					/********* Main navbar from app layout view ***********/
 .navbar{
-	background-color: LimeGreen;
+	background-color: DimGray;
 	height: 75px;
+	color: white;
+}
+
+.top-navbar{
+	z-index: 2;
 }
 
 .nav-shadow{
-	z-index: 1;
 	-webkit-box-shadow: 0px 3px 9px 0px rgba(209,209,209,1);
 	-moz-box-shadow: 0px 3px 9px 0px rgba(209,209,209,1);
 	box-shadow: 0px 3px 9px 0px rgba(209,209,209,1);
@@ -81,19 +85,19 @@ div.alert ul{
 }
 
 .login-container, .register-container{
-	margin-top: 30px;
+	margin-top: 105px;
 }
 
 					/*****Welcome view******/
 div.welcome{
-	background: LimeGreen;
+	background: DimGray;
 	
 	/* horizontal length,vertical length, blur radius, spread radius*/
 	box-shadow: inset 400px 0px 100px -50px #f5f8fa, 
               	inset -400px 0px 100px -50px #f5f8fa;
 }
 h1.welcome-heading{
-	margin-top: 100px;
+	margin-top: 175px;
 }
 
 ul.welcome-nav{
@@ -115,7 +119,7 @@ div.card{
 	border-radius: 0;
 }
 div.card-header{
-	background-color: LimeGreen;
+	background-color: DimGray;
 }
 
 div.card-header:first-child{
@@ -127,9 +131,12 @@ div.card-header:first-child{
 .nav-home{
 	/*padding-right: 0px;
 	padding-left: 0px;*/
+	position: fixed;
 	padding: 0;
-	min-height: calc(100vh - 75px);
+	min-height: 100vh;
 	background-color: white;
+	padding-top: 75px;
+	z-index: 1;
 }
 .nav-home ul{
 	margin-bottom: 0;
@@ -170,7 +177,7 @@ div.alert ul{
 
 					/*****Main-content*****/
 .main-container{
-	padding: 20px;
+	padding: 95px 20px 20px 20px;
 }
 
 
@@ -225,6 +232,7 @@ div.alert{
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
+
 
 
 					/*****Show image*****/
@@ -406,6 +414,7 @@ td, th {
 
 	.nav-home ul{
 		height: auto;
+		padding-top: 0px;
 		text-align: center;
 	}
 	.nav-home li{
@@ -418,6 +427,15 @@ td, th {
 
 	.nav-home{
 		min-height: auto;
+	}
+
+	.top-nav, .nav-home{
+		position:static;
+	}
+
+	.main-container{
+
+		padding-top: 20px;
 	}
 
 }

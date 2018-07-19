@@ -83,3 +83,4 @@ Route::get('/images/download/{image_id}', 'DownloadController@download_original'
 Route::get('/images/download/png/{image_id}/{isreceived?}', 'DownloadController@download_png');
 
 Route::get('/received/download/{image_id}', 'DownloadController@download_original_recv');
+

@@ -48,12 +48,12 @@
 		@if($image->extension != "png")
 		<tr>
 			<td>Upload size:</td>
-			<td>{{$image->size/1000}} KB</td>
+			<td>{{round($image->size/1024, 2)}} KB</td>
 		</tr>
 		@endif
 		<tr>
 			<td>PNG_size:</td>
-			<td>{{$image->png_size/1000}} KB</td>
+			<td>{{round($image->png_size/1024, 2)}} KB</td>
 		</tr>
 		<tr>
 			<td>Uploaded_at:</td>

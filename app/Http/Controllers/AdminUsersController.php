@@ -52,7 +52,7 @@ class AdminUsersController extends Controller
     //Spremanje novog korisnika kreiranog od strane admina
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

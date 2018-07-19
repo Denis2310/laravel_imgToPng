@@ -51,7 +51,7 @@
 		</tr>
 		<tr>
 			<td>PNG size:</td>
-			<td>{{$image_data->png_size/1000}} KB</td>
+			<td>{{round($image_data->png_size/1024, 2)}} KB</td>
 		</tr>
 		<tr>
 			<td>Received at:</td>

@@ -26,7 +26,7 @@
 <body>
     <div id="app">
     <!-- upper navbar -->
-        <nav class="navbar navbar-light nav-shadow navbar-expand-sm">
+        <nav class="navbar navbar-light nav-shadow navbar-expand-sm fixed-top top-navbar">
             <div class="container">
                 <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
                     {{ config('app.name') }}

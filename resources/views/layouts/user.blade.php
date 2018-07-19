@@ -13,7 +13,7 @@
         </nav>
 
         <!-- main content home view -->
-        <div class="col-md-10 col-sm-8 main-container">
+        <div class="col-md-10 offset-md-2 col-sm-8 offset-sm-4 main-container">
             @yield('main-content')
         </div>
 
