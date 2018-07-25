@@ -24,10 +24,11 @@
 <div class="col-md-6 image-download-container">
 
 	<ul>
-		<li><a href="{{action('DownloadController@download_png', [$image->id, true])}}">Download PNG</a></li>
 		@if($image_data->extension != "png")
-		<li><a href="{{action('DownloadController@download_original_recv', $image->id)}}">Download original</a></li>
+		<li><a href="{{action('DownloadController@download_recv_image', [$image->id, true])}}">Download original</a></li>
 		@endif
+		<li><a href="{{action('DownloadController@download_recv_image', [$image->id, false])}}">Download PNG</a></li>
+
 	</ul>
 
 </div>

@@ -13,9 +13,10 @@
 
                 <div class="card-body form-group">
 
-                    <form method="post" action="{{action('UserImagesController@store'}}" enctype="multipart/form-data">
+                    <form method="post" action="{{action('AdminUsersController@store')}}">
                         @csrf
-
+                    <div class="row">
+                    <div class="col-md-8">
                         <label for="username">Name:</label>
                 	   	<input id="username" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
 
@@ -44,17 +45,9 @@
                         @endif
 
                  	   	<label for="password-confirm">Confirm password:</label>
-                	   	<input id="password-confirm" type="password" class="form-control" name="password-confirmation">            	   	
-                       @if ($errors->any())
-                            <div class="alert alert-danger" onclick="remove(this)">
-                                <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                   
+                	   	<input id="password-confirm" type="password" class="form-control" name="password_confirmation">            	   	
+                    </div>
+                    </div>
                 	   <div class="form-button-wrapper">
                 	   		<button class="btn btn-primary" value="submit" onclick="buttonSubmit(this)"> Register user </button>                   
                 	   </div>

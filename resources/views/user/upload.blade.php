@@ -13,8 +13,9 @@
 
                     <form method="post" action="{{action('UserImagesController@store')}}" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <label class="btn btn-secondary" for="inputImage">Select Image</label>
+                        <label class="btn btn-secondary ml-auto" for="inputImage">Select Image</label>
                 	   <input type="file" class="form-control-file" id="inputImage" name="file"></input>
+                       <p class="selected-file-name"></p>
                        @if ($errors->any())
                             <div class="alert alert-danger" onclick="remove(this)">
                                 <ul>
@@ -26,11 +27,9 @@
                         @endif
                    
                 	   <div class="form-button-wrapper">
-
-                	   <button class="btn btn-primary" value="submit" onclick="buttonSubmit(this)"> Upload </button>
-                	   <!--<button class="btn btn-default"><a href="/home"> Back </a></button>-->
-                        
+                	   <button class="btn btn-primary" value="submit" onclick="buttonSubmit(this)"> Upload </button>             
                 	   </div>
+                       <div class="upload-file-types-text">Only PNG, BMP, JPG and GIF file types are allowed</div>
                     </form>
 
                 </div>

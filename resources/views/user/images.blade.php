@@ -3,6 +3,7 @@
 @section('main-content')
 
 <h2 align="center"> My Images </h2>
+
 <hr>
 
 	@if(Session::has('success'))
@@ -21,7 +22,7 @@
    		<a href="/received/{{$image->id}}"><img id="myImg" src="/storage/images/{{Auth::user()->id}}/received/{{$image->path}}" height=100 width=150 alt="{{$image->path}}"></img></a>
    		<div> received </div>
 	@else
-   		<a href="/images/{{$image->id}}"><img src="/storage/images/{{Auth::user()->id}}/png/{{$image->path}}" height=100 width=150></img></a>
+   		<a href="/images/{{$image->id}}"><img src="/storage/images/{{Auth::user()->id}}/uploaded/{{$image->path}}" height=100 width=150></img></a>
    	@endif
 </div>
 @endforeach

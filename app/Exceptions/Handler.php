@@ -4,6 +4,10 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Database\QueryException;
+
 
 class Handler extends ExceptionHandler
 {
@@ -47,9 +51,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException)
+        if ($exception instanceof PostTooLargeException)
         {
             return redirect()->back()->withErrors(['Invalid type of file.']);
+        }
+
+        if($exception instanceof QueryException)
+        {
+            return response()->view('errors.queryerror');
         }
 
         return parent::render($request, $exception);

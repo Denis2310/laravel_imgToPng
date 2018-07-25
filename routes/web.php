@@ -50,18 +50,8 @@ Route::resource('/admin/images', 'AdminImagesController')->names([
 	'edit' => 'admin.images.edit'
 ]);
 
-//User routes
-/*Route::get('/images', 'ImageController@index')->name('home');
 
-Route::get('/images/{image_id}', 'ImageController@show');
-
-Route::delete('/images/{image_id}', 'ImageController@destroy')->name('images.destroy');
-
-Route::get('/upload', 'ImageController@upload');
-
-Route::post('/upload', 'ImageController@store');*/
-
-
+/****User image routes****/
 Route::resource('/images', 'UserImagesController');
 
 
@@ -76,11 +66,12 @@ Route::post('/images/{image_id}', 'SendReceiveImageController@send')->name('imag
 Route::delete('/received/{image_id}', 'SendReceiveImageController@destroy')->name('received.destroy');
 
 
+
 /***DownloadController routes***/
 
-Route::get('/images/download/{image_id}', 'DownloadController@download_original');
+Route::get('/images/download/{image_id}/{isoriginal?}', 'DownloadController@download_user_image');
 
-Route::get('/images/download/png/{image_id}/{isreceived?}', 'DownloadController@download_png');
+Route::get('/images/download/received/{image_id}/{isoriginal?}', 'DownloadController@download_recv_image');
 
-Route::get('/received/download/{image_id}', 'DownloadController@download_original_recv');
+
 

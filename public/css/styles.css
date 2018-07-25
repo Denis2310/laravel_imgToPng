@@ -13,7 +13,7 @@ button{
 
 }
 
-button.btn, label.btn{
+button.btn, label.btn, a.btn{
 	border-radius: 0 !important;
 }
 
@@ -61,6 +61,20 @@ div.alert{
 
 div.alert ul{
 	padding-left: 20px;
+}
+
+					/********Error views********/
+
+.errors-flex-container{
+	display:flex;
+	height: 100vh;
+	font-size: 30px;
+	align-items: center;
+	justify-content: center;
+}
+
+.errors-flex-container>div{
+	height: 100px;
 }
 
 					/********* Main navbar from app layout view ***********/
@@ -152,10 +166,13 @@ div.card-header:first-child{
 	padding: 10px 20px;
 }
 
+.nav-home li.active{
+	border-left: 5px solid DimGray;
+}
+
 					/*******Upload view********/
 
 div.upload-container{
-
 	margin-top: 30px;
 	margin-bottom: 0;
 	padding: 0;
@@ -166,9 +183,20 @@ div.upload-container .card-body{
 }
 
 div.upload-container .form-button-wrapper{
-
 	text-align: right;
 	margin-top: 20px;
+}
+
+div.upload-container .upload-file-types-text{
+	position:relative;
+	top: 7px;
+	left: -5px;
+	font-size: 0.8em;
+	opacity: 0.5;
+}
+
+div.upload-container p{
+	margin-bottom: 0;
 }
 
 div.alert ul{
@@ -191,6 +219,23 @@ div.alert ul{
 
 div.alert{
 	margin: 5px;
+}
+
+.image-types-list ul{
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style-type: none;
+}
+
+.image-types-list ul li{
+	display: inline-block;
+	margin-left: 10px;
+	font-size: 0.8em;
+}
+
+.image-types-list span{
+	position:relative;
+	bottom: 1px;
 }
 
 
@@ -233,6 +278,29 @@ div.alert{
 	border-bottom-right-radius: 5px;
 }
 
+.images-container .png{
+
+	-webkit-box-shadow: inset 0px 0px 2px 1px rgba(0,0,255,1);
+	-moz-box-shadow: inset 0px 0px 2px 1px rgba(0,0,255,1);
+	box-shadow: inset 0px 0px 2px 1px rgba(0,0,255,1);
+}
+
+.images-container .bmp{
+
+	border-color: red;
+}
+
+.images-container .jpg{
+
+	-webkit-box-shadow: inset 0px 0px 2px 1px rgba(255,255,0,1);
+	-moz-box-shadow: inset 0px 0px 2px 1px rgba(255,255,0,1);
+	box-shadow: inset 0px 0px 2px 1px rgba(255,255,0,1);
+}
+
+.images-container .gif{
+
+	border-color: green;
+}
 
 
 					/*****Show image*****/
@@ -313,7 +381,7 @@ td, th {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     padding-top: 70px;
     left: 0;
     top: 0;
@@ -434,7 +502,6 @@ td, th {
 	}
 
 	.main-container{
-
 		padding-top: 20px;
 	}
 

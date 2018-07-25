@@ -46,8 +46,7 @@ class User extends Authenticatable
         return false;
     }*/
     // Ovo sam izmjenio treba provjeriti
-    return ($this->role->name == "Administrator") ? true : false;
-
-}
+        return ($this->role->name == "Administrator") ? true : false;
+    }
 
 }

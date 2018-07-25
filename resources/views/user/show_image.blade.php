@@ -9,7 +9,7 @@
 <div class="col-md-6">
 
 	<div class="images-container-item hoverable float-md-right mx-sm-auto">
-   		<img id="myImg" src="/storage/images/{{Auth::user()->id}}/png/{{$image->path}}" height=100 width=150 alt="{{$image->path}}"></img>
+   		<img id="myImg" src="/storage/images/{{Auth::user()->id}}/uploaded/{{$image->path}}" height=100 width=150 alt="{{$image->path}}"></img>
 	</div>
 
 	 <!--Div za prikazivanje velike slike-->
@@ -25,9 +25,9 @@
 
 	<ul>
 		@if($image->extension != "png")
-		<li><a href="{{action('DownloadController@download_original', $image->id)}}">Download {{strtoupper($image->extension)}}</a></li>
+		<li><a href="{{action('DownloadController@download_user_image', [$image->id, true])}}">Download {{strtoupper($image->extension)}}</a></li>
 		@endif
-		<li><a href="{{action('DownloadController@download_png',$image->id)}}">Download PNG</a></li>
+		<li><a href="{{action('DownloadController@download_user_image',[$image->id, false])}}">Download PNG</a></li>
 	</ul>
 
 </div>

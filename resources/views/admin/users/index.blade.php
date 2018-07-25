@@ -35,6 +35,7 @@
 </table>
 </div>
 <div class="row col-md-12">
-    <button class="btn btn-primary ml-auto btn-margin-15"><a class="button-link-style" href="/admin/users/create"> Add User </a></button>
+  <a class="button-link-style ml-auto btn-margin-15 btn btn-primary" href="/admin/users/create"> Add User </a>
+    <!--<button class="btn btn-primary ml-auto btn-margin-15"></button>-->
 </div>
 @endsection

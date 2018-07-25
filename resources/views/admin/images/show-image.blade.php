@@ -7,7 +7,7 @@
 <div class="row">
 <div class="col-md-6">
 	<div class="images-container-item hoverable float-md-right mx-sm-auto">
-   		<img src="/storage/images/{{$image->user_id}}/png/{{$image->path}}" height=100 width=150></img>
+   		<img src="/storage/images/{{$image->user_id}}/uploaded/{{$image->path}}" height=100 width=150></img>
 	</div>
 
 	<!--Div za prikazivanje velike slike-->

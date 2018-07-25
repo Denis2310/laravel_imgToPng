@@ -7,35 +7,30 @@ use App\Http\Requests\UploadRequest;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Image;
-use App\ImageUser;
+use App\SendImage as ReceivedImages;
 use Intervention\Image\Facades\Image as Img;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\RedirectResponse;
 
 
 class UserImagesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function __construct()
-    {
+
+    public function __construct(){
+
         $this->middleware('auth');
         $this->middleware('user');
     }
 
     //Pogled korisnikove slike
-    public function index()
-    {
+    public function index(){
+
         $user = Auth::user();
         $images = $user->images;
 
         //Ako postoje primljene slike spoji ih i sortiraj za korisnikovim slikama
-        if($received_images = ImageUser::whereTo_user($user->id)->get()) {
+        if($received_images = ReceivedImages::whereTo_user($user->id)->get()){
 
             $all_images = $images->merge($received_images); 
             
@@ -48,31 +43,22 @@ class UserImagesController extends Controller
         return view('user.images', compact('images'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
 
     //Prebacivanje na pogled za upload slike
-    public function create()
-    {
+    public function create(){
+
         return view('user.upload');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
 
     //Validacija, konverzija u png, spremanje slike
-    public function store(UploadRequest $request)
-    {
-        //Provjera duljine imena slike (max 20 znakova)
-        if(!is_valid_name($request->file('file'))) {
+    public function store(UploadRequest $request){
 
+        //Provjera duljine imena slike (max 20 znakova)
+        if(!is_valid_name($request->file('file'))) 
+        {
             return redirect()->back()->withErrors(['File name can\'t be longer than 20 characters.']);
         }
 
@@ -86,39 +72,36 @@ class UserImagesController extends Controller
         //Ako je slika png spremi ju bez konverzije
         if($image->getClientOriginalExtension() == "png")
         {
-            Storage::put('public/images/'.$user->id.'/png/'.$image_name, file_get_contents($image));
+            Storage::put('public/images/'.$user->id.'/uploaded/'.$image_name, file_get_contents($image));
             return save_image_to_database($image, $user, $time);
         }
         else
         {
+            $result = check_extension_and_convert($image, $user, $time);
 
-            if(check_extension_and_convert($image, $user, $time))
+            if($result === true)
             {
                 //Spremanje originalne slike
-                Storage::put('public/images/'.$user->id.'/'.$image_name, file_get_contents($image));
                 return save_image_to_database($image, $user, $time);
+            }
+            elseif($result == false)
+            {
+                return redirect()->back()->withErrors(['Something went wrong, file was not uploaded!.']);
             }
             else
             {
-
-                return redirect()->back()->withErrors(['Something went wrong, file was not uploaded!.']);
+                return redirect()->back()->withErrors([$result]);    
             }
-                
         }
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
 
     //Show image pogled, nakon klika na sliku
-    public function show($id)
-    {
+    public function show($id){
+
         $image = Image::findOrFail($id);
+        
         if(Auth::user()->id != $image->user_id)
         {
             return abort(404);
@@ -128,50 +111,26 @@ class UserImagesController extends Controller
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /*public function edit($id)
+
+    public function edit($id) {
+
+        //
+    }
+
+
+    public function update(Request $request, $id)
     {
         //
-    }*/
+    }
+    
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /*public function update(Request $request, $id)
-    {
-        //
-    }*/
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    //Korisnik briše svoju učitanu sliku
     public function destroy($id)
     {
+        
         $image = Image::findOrFail($id);
 
         //Pronađi sliku u folderu i obriši ju
-        Storage::delete('/public/images/'.$image->user_id.'/png/'.$image->path);
-
-        //Ako nije original nije png onda pronađi u folderu original i obriši i njega
-        if($image->extension != "png")
-        {
-            $image_name = substr($image->path, 0, -3);
-            Storage::delete('/public/images/'.$image->user_id.'/'.$image_name.$image->extension);
-        }
+        Storage::delete('/public/images/'.$image->user_id.'/uploaded/'.$image->path);
 
         Session::flash('success', 'Your image was successfully deleted!');
 
@@ -190,8 +149,7 @@ class UserImagesController extends Controller
         }
                    
     }
-
-} 
+} // Kraj kontrolera
 
 
 function is_valid_name($file){
@@ -212,26 +170,34 @@ function check_extension_and_convert($image, $user, $time){
     //Ukloni ekstenziju
     $image_name_without_extension = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
     $image_name_png = $time . $image_name_without_extension .'.png';
-
     $extension = $image->getClientOriginalExtension();
 
     switch($extension){
 
-        case 'bmp': $original_image = imagecreatefrombmp($image->path()); break;
+        //Bmp baca gresku za monokromatski bitmap
+        case 'bmp': 
+            try {
+                $original_image = imagecreatefrombmp($image->path()); break;
+                } 
+            catch (\Exception $e){
+
+                return 'Invalid type, 1-bit Bitmap is not allowed.'; break;
+            }
         case 'jpg': $original_image = imagecreatefromjpeg($image->path()); break;
         case 'gif': $original_image = imagecreatefromgif($image->path()); break;
-        default: return false;
+        
+        default: return 'Invalid type of file.';
     }
 
     //Provjeri da li postoji direktorij, ako ne postoji kreiraj ga
-    if (!file_exists(storage_path().'/app/public/images/'.$user->id.'/png/')) {
+    if (!file_exists(storage_path().'/app/public/images/'.$user->id.'/uploaded/')) {
 
-        mkdir(storage_path().'/app/public/images/'.$user->id.'/png/', 0777, true);
+        mkdir(storage_path().'/app/public/images/'.$user->id.'/uploaded/', 0777, true);
     }
 
-    $is_converted = imagepng($original_image, storage_path().'/app/public/images/'.$user->id.'/png/'.$image_name_png);
+    $is_converted_and_saved = imagepng($original_image, storage_path().'/app/public/images/'.$user->id.'/uploaded/'.$image_name_png);
 
-    return $is_converted;
+    return $is_converted_and_saved;
 }
 
 
@@ -239,15 +205,23 @@ function save_image_to_database($image, $user, $time){
 
     $db_image = new Image();
 
+
     if($image->extension() == 'png')
     {
         $db_image->path = $time . $image->getClientOriginalName();
-        $db_image->png_size = $image->getClientOriginalSize();
+
+        try {
+            $db_image->png_size = $image->getClientOriginalSize();
+            } 
+        catch (\Exception $e){
+
+                $db_image->png_size = $image->getSize();
+            }
     }
     else
     {
         $path = $time . pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME).'.png';
-        $png_size = Storage::size('/public/images/'.$user->id.'/png/'.$path);
+        $png_size = Storage::size('/public/images/'.$user->id.'/uploaded/'.$path);
 
         $db_image->path = $path;
         $db_image->png_size = $png_size;
@@ -258,6 +232,7 @@ function save_image_to_database($image, $user, $time){
     $db_image->size = $image->getClientSize();   
     $db_image->save();
 
+    Session::flash('success', 'Image uploaded.');
     return redirect('/images');
 }
 
