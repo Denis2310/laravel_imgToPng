@@ -24,7 +24,11 @@
 			<td>Uploaded images:</td>
 			<td>{{count($user->images)}}</td>
 		</tr>
-		@endif
+		<tr>
+			<td>Received images:</td>
+			<td>{{count($images) - count($user->images)}}</td>
+		</tr>	
+		@endif	
 		<tr>
 			<td>Registration date:</td>
 			<td>{{$user->created_at->format('H:m:s, d.M.Y')}}</td>
@@ -39,7 +43,7 @@
 </div>
 <div class="row">
 	<div class=" col-md-8 offset-md-2 text-right">
-			                       @if ($errors->any())
+			            @if ($errors->any())
                             <div class="alert alert-danger text-left" onclick="remove(this)">
                                 <ul>
                                 @foreach ($errors->all() as $error)
@@ -56,24 +60,29 @@
 	</div>
 </div>
 
-@if(!Auth::user()->isAdmin())
 <div class="row">
-<div class="col-md-12 show-user-images-row">
-	<h4 align="center">User images</h4>
-	<hr>
-	<div class="images-container">
-	@if($images)
-		@foreach($images as $image)
-		<div class="images-container-item hoverable"> <!--images-container-item-->
+	<div class="col-md-12 show-user-images-row">
+		<hr>
+		<div class="images-container">
+		@if($images)
+			@foreach($images as $image)
+				<div class="images-container-item hoverable">
+					@if($image->to_user)
+  					<a href="/admin/images/sent/{{$image->id}}">
+   						<img src="/storage/images/{{$image->to_user}}/received/{{$image->path}}" height=100 width=150></img>
 
-   			<a href="/admin/images/{{$image->id}}">
-   			<img src="/storage/images/{{$user->id}}/png/{{$image->path}}" height=100 width=150></img>
-   			</a>
+   					</a>
+   					<div>received</div>
+   					@else
+  					<a href="/admin/images/{{$image->id}}">
+   						<img src="/storage/images/{{$user->id}}/uploaded/{{$image->path}}" height=100 width=150></img>
+   					</a>
+   					@endif
+				</div>
+			@endforeach
+		@endif
 		</div>
-		@endforeach
-	@endif
 	</div>
 </div>
-</div>
-@endif
+
 @endsection

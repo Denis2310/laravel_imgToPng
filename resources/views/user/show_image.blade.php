@@ -27,7 +27,7 @@
 		@if($image->extension != "png")
 		<li><a href="{{action('DownloadController@download_user_image', [$image->id, true])}}">Download {{strtoupper($image->extension)}}</a></li>
 		@endif
-		<li><a href="{{action('DownloadController@download_user_image',[$image->id, false])}}">Download PNG</a></li>
+		<li><a href="{{action('DownloadController@download_user_image', $image->id)}}">Download PNG</a></li>
 	</ul>
 
 </div>
@@ -43,7 +43,7 @@
 		</tr>
 		<tr>
 			<td>Upload type:</td>
-			<td>{{$image->extension}}</td>
+			<td>{{strtoupper($image->extension)}}</td>
 		</tr>
 		@if($image->extension != "png")
 		<tr>

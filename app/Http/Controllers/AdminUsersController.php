@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AdminNewUserRequest;
 use App\User;
 use App\Image;
-use App\SendImage;
+use App\SendImage as ReceivedImages;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +55,17 @@ class AdminUsersController extends Controller
     {
         $user = User::findOrFail($id);
         $images = $user->images;
+        
+        //Ako postoje primljene slike spoji ih i sortiraj za korisnikovim slikama
+        if($received_images = ReceivedImages::whereTo_user($user->id)->get()){
+
+            $all_images = $images->merge($received_images); 
+            
+            $images = $all_images->sortBy(function($image){
+
+                return $image->created_at;
+            });
+        }
         return view('admin.users.show-user', compact('user', 'images'));
     }
 
@@ -89,7 +100,7 @@ class AdminUsersController extends Controller
         }
 
         //Brisanje primljenih slika iz baze
-        $received_images = SendImage::whereTo_user($id)->get();
+        $received_images = ReceivedImages::whereTo_user($id)->get();
         if($received_images)
         {
             foreach($received_images as $received_image)

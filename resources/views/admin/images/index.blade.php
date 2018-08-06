@@ -17,9 +17,16 @@
 <div class="images-container">
   @foreach($images as $image)
   <div class="images-container-item hoverable">
-  	<a href="/admin/images/{{$image->id}}">
-  		<img src="/storage/images/{{$image->user->id}}/uploaded/{{$image->path}}" alt="{{$image->path}}" height=100 width=150></img>
-  	</a>
+  @if($image->to_user)
+    <a href="/admin/images/sent/{{$image->id}}">
+      <img src="/storage/images/{{$image->to_user}}/received/{{$image->path}}" alt="{{$image->path}}" height=100 width=150></img>
+    </a>
+    <div> sent </div>
+  @else
+    <a href="/admin/images/{{$image->id}}">
+      <img src="/storage/images/{{$image->user->id}}/uploaded/{{$image->path}}" alt="{{$image->path}}" height=100 width=150></img>
+    </a>
+  @endif
   </div>
   @endforeach
 </div>

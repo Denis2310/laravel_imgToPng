@@ -22,9 +22,9 @@
 <div class="col-md-6 image-download-container">
 	<ul>
 		@if($image->extension != "png")
-		<li><a href="">Download {{strtoupper($image->extension)}}</a></li>
+		<li><a href="{{action('DownloadController@download_user_image', [$image->id, true])}}">Download {{strtoupper($image->extension)}}</a></li>
 		@endif
-		<li><a href="">Download PNG</a></li>
+		<li><a href="{{action('DownloadController@download_user_image', $image->id)}}">Download PNG</a></li>
 	</ul>
 </div>
 </div>
@@ -41,7 +41,7 @@
 		</tr>
 		<tr>
 			<td>Upload type:</td>
-			<td>{{$image->extension}}</td>
+			<td>{{strtoupper($image->extension)}}</td>
 		</tr>
 		@if($image->extension != "png")
 		<tr>
@@ -62,9 +62,16 @@
 </div>
 <div class="row">
 	<div class=" col-md-8 offset-md-2">
-
+		@if ($errors->any())
+        	<div class="alert alert-danger text-left" onclick="remove(this)">
+            	<ul>
+            	@foreach ($errors->all() as $error)
+              		<li>{{ $error }}</li>
+            	@endforeach
+           	 	</ul>
+        	</div>
+        @endif
         <div class="row">
-
         	<div class="col-md-12 show-image-buttons text-right">
 				<form method="post" action="{{route('admin.images.destroy', $image->id)}}">
 					{{csrf_field()}}

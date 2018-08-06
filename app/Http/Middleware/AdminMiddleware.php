@@ -7,13 +7,6 @@ use Closure;
 
 class AdminMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
 
     //Provjerava da li je korisnik administrator, ako nije vraća ga nazad
     public function handle($request, Closure $next)
@@ -27,3 +20,4 @@ class AdminMiddleware
         return $next($request);
     }
 }
+

@@ -30,6 +30,13 @@ Route::get('/', function(){
 
 Auth::routes();
 
+
+/*
+|-------------------------------------------------
+| Administrator routes
+|-------------------------------------------------
+*/
+
 Route::resource('/admin/users', 'AdminUsersController')->names([
 	'index' => 'admin.users.index',
 	'store' => 'admin.users.store',
@@ -50,12 +57,24 @@ Route::resource('/admin/images', 'AdminImagesController')->names([
 	'edit' => 'admin.images.edit'
 ]);
 
+Route::get('admin/images/sent/{image_id}', 'AdminImagesController@show_sent');
 
-/****User image routes****/
+
+/*
+|-------------------------------------------------
+|User Image routes
+|-------------------------------------------------
+*/
+
 Route::resource('/images', 'UserImagesController');
 
 
-/****SendReceiveImageController routes***/
+
+/*
+|-------------------------------------------------
+| SendReceiveImageController routes
+|-------------------------------------------------
+*/
 
 Route::get('/received', 'SendReceiveImageController@index');
 
@@ -67,11 +86,14 @@ Route::delete('/received/{image_id}', 'SendReceiveImageController@destroy')->nam
 
 
 
-/***DownloadController routes***/
+/*
+|-------------------------------------------------
+| DownloadController routes
+|-------------------------------------------------
+*/
 
-Route::get('/images/download/{image_id}/{isoriginal?}', 'DownloadController@download_user_image');
+Route::get('download/{image_id}/{isoriginal?}', 'DownloadController@download_user_image');
 
-Route::get('/images/download/received/{image_id}/{isoriginal?}', 'DownloadController@download_recv_image');
-
+Route::get('received/download/{image_id}/{isoriginal?}', 'DownloadController@download_recv_image');
 
 
