@@ -10,4 +10,9 @@ class Image extends Model
     	
     	return $this->belongsTo('App\User');
     }
+
+    public function sent(){
+
+    	return $this->hasMany('App\SendImage');
+    }
 }

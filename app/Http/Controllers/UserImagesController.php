@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Image;
 use App\SendImage as ReceivedImages;
-use Intervention\Image\Facades\Image as Img;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
@@ -29,17 +28,21 @@ class UserImagesController extends Controller
         $user = Auth::user();
         $images = $user->images;
 
-        //Ako postoje primljene slike spoji ih i sortiraj za korisnikovim slikama
-        if($received_images = ReceivedImages::whereTo_user($user->id)->get()){
+        if($received_images = $user->received_images)
+        {
+            $all_images = collect();
 
-            $all_images = $images->merge($received_images); 
-            
-            $images = $all_images->sortBy(function($image){
+            foreach($images as $image)
+            {
+                $all_images->push($image);
+            }
 
-                return $image->created_at;
-            });
+            foreach($received_images as $image)
+            {
+                $all_images->push($image);
+            }
         }
-
+        
         return view('user.images', compact('images'));
     }
 
@@ -111,7 +114,7 @@ class UserImagesController extends Controller
     }
 
 
-
+/*
     public function edit($id) {
 
         //
@@ -122,7 +125,7 @@ class UserImagesController extends Controller
     {
         //
     }
-    
+    */
 
     public function destroy($id)
     {
@@ -131,7 +134,6 @@ class UserImagesController extends Controller
 
         //Pronađi sliku u folderu i obriši ju
         Storage::delete('/public/images/'.$image->user_id.'/uploaded/'.$image->path);
-
         Session::flash('success', 'Your image was successfully deleted!');
 
         //Ako je slika poslana, obriši samo ID od vlasnika

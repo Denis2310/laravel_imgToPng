@@ -8,6 +8,7 @@ use App\User;
 use App\SendImage as SentImages;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Collection;
 
 class AdminImagesController extends Controller
 {
@@ -23,20 +24,32 @@ class AdminImagesController extends Controller
     public function index()
     {
         $images = Image::all()->where('user_id', '>', 0);
-        
         if($sent_images = SentImages::all())
         {
-            $all_images = $images->merge($sent_images);
+            $all_images = collect();
+
+            foreach($images as $image)
+            {
+                $all_images->push($image);
+            }
+
+            foreach($sent_images as $image)
+            {
+                $all_images->push($image);
+            }
+
+
             $images = $all_images->sortBy(function($image){
 
                 return $image->created_at;
             });
         }
+
         return view('admin.images.index', compact('images'));
     }
 
 
-    public function create()
+ /*   public function create()
     {
         //
     }
@@ -47,7 +60,7 @@ class AdminImagesController extends Controller
     {
         //
     }
-
+*/
 
 
     //Prikaz jedne slike na koju se klikne
@@ -61,13 +74,11 @@ class AdminImagesController extends Controller
     public function show_sent($id)
     {
         $image = SentImages::findOrFail($id);
-        $to_user = User::findOrFail($image->to_user)->name;
-        $image_data = Image::findOrFail($image->image_id);
-        return view('admin.images.show-sent-image', compact('image', 'image_data', 'to_user'));
+        return view('admin.images.show-sent-image', compact('image'));
     }
 
 
-
+/*
     public function edit($id)
     {
         //
@@ -80,12 +91,15 @@ class AdminImagesController extends Controller
         //
     }
 
-
+*/
 
     //Brisanje slike od strane admina
     public function destroy($id)
     {
+
         $image = Image::findOrFail($id);
+        Storage::delete('public/images/'.$image->user_id.'/uploaded/'.$image->path);
+     
         if($image->times_sent == 0)
         {
             $image->delete();  
@@ -95,9 +109,38 @@ class AdminImagesController extends Controller
             $image->user_id = 0;
             $image->save();
         }
+      
+        Session::flash('success', 'Image successfully deleted!');
+        return redirect('/admin/images');
+    }
+
+    public function destroy_sent($id)
+    {
+
+        $image = SentImages::findOrFail($id);
+        $image_data = Image::findOrFail($image->image_id);
+
+        //Brisanje slike iz Images tablice ako nema vlasnika i nije poslana
+        //if($image_data->user_id == 0 && $image_data->times_sent == 1)
+        if($image->imageData->user_id == 0 && $image->imageData->times_sent == 1)
+        {
+            //$image_data->delete();
+            $image->imageData->delete();
+        }
+        else
+        {
+            //$image_data->times_sent = $image_data->times_sent - 1;
+            //$image_data->save();
+            $image->imageData->times_sent--;
+            $image->imageData->save();
+        }
         
-        Storage::delete('public/images/'.$image->user_id.'/uploaded/'.$image->path);    
-        Session::flash('success', 'User image successfully deleted!');
+        //Obriši primljenu sliku
+        Storage::delete('public/images/'.$image->to_user.'/received/'.$image->path);
+        //Obriši iz tablice primljenih slika
+        $image->delete();
+        
+        Session::flash('success', 'Image successfully deleted!');
         return redirect('/admin/images');
     }
 }

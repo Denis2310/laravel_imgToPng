@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 Use App\Image;
 use App\SendImage as ReceivedImage;
 
-use Intervention\Image\Facades\Image as Img;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -80,7 +79,7 @@ class DownloadController extends Controller
             }
 
             $image_real_name = substr($image->path, 10);
-            $extension = Image::findOrFail($image->image_id)->extension;
+            $extension = $image->imageData->extension;
             
             if($original == true)
             {

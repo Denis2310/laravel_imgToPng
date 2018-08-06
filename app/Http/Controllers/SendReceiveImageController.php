@@ -25,7 +25,7 @@ class SendReceiveImageController extends Controller
     public function index(){
 
         $user = Auth::user();
-        $received_images = SentReceivedImages::where('to_user', $user->id)->get();
+        $received_images = $user->received_images;
         return view('user.received', compact('received_images'));
     }
 
@@ -33,14 +33,13 @@ class SendReceiveImageController extends Controller
     public function show($id){
 
         $image = SentReceivedImages::findOrFail($id);
-        $image_data = Image::findOrFail($image->image_id);
         
         if(Auth::user()->id != $image->to_user)
         {
             return redirect()->back();
         }
 
-        return view('user.show_received_image', compact('image', 'image_data'));
+        return view('user.show_received_image', compact('image'));
     }
 
     //Slanje slike drugom korisniku
@@ -74,13 +73,8 @@ class SendReceiveImageController extends Controller
             return redirect()->back()->withErrors(['This image was already sent to this user.']);
         }
 
-        //Dodaje se vrijeme ispred slike koja se šalje jer ako se šalju dvije iste slike a ne stavi se vrijeme biti će istog naziva
-        //$time = time();
         $receiver_email = $request->email;
         $receiver = User::where('email', $receiver_email)->firstOrFail();
-
-        //Uklanjanje prethodnog vremena iz imena slike koja se šalje i dodavanje novog
-        //$sent_image_path = $time.substr($image->path, 10);
 
         //Putanja slike koja se šalje, putanja gdje se sprema slika
         if(Storage::copy('public/images/'.$image->user_id.'/uploaded/'.$image->path, 'public/images/'.$receiver->id.'/received/'.$image->path))
@@ -93,7 +87,7 @@ class SendReceiveImageController extends Controller
             $sendImage->from_user = $image->user->name;
             $sendImage->save();
         
-            $image->times_sent = $image->times_sent + 1;
+            $image->times_sent++;
             $image->save();
 
             Session::flash('success', 'Image was sent!');
@@ -107,18 +101,19 @@ class SendReceiveImageController extends Controller
     public function destroy($id){
 
         $image = SentReceivedImages::findOrFail($id);
+        
         //Podaci o slici u Images tablici
-        $image_data = Image::findOrFail($image->image_id); 
+        //$image_data = Image::findOrFail($image->image_id); 
 
         //Brisanje slike iz Images tablice ako nema vlasnika i nije poslana
-        if($image_data->user_id == 0 && $image_data->times_sent == 1)
+        if($image->imageData->user_id == 0 && $image->imageData->times_sent == 1)
         {
             $image_data->delete();
         }
         else
         {
-            $image_data->times_sent = $image_data->times_sent - 1;
-            $image_data->save();
+            $image->imageData->times_sent--;
+            $image->imageData->save();
         }
         
         //Obriši primljenu sliku

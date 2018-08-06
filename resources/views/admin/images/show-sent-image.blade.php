@@ -24,8 +24,8 @@
 <div class="col-md-6 image-download-container">
 
 	<ul>
-		@if($image_data->extension != "png")
-		<li><a href="{{action('DownloadController@download_recv_image', [$image->id, true])}}">Download {{strtoupper($image_data->extension)}}</a></li>
+		@if($image->imageData->extension != "png")
+		<li><a href="{{action('DownloadController@download_recv_image', [$image->id, true])}}">Download {{strtoupper($image->imageData->extension)}}</a></li>
 		@endif
 		<li><a href="{{action('DownloadController@download_recv_image', $image->id)}}">Download PNG</a></li>
 
@@ -48,7 +48,7 @@
 		</tr>
 		<tr>
 			<td>To user:</td>
-			<td>{{$to_user}}</td>
+			<td>{{$image->toUser->name}}</td>
 		</tr>
 		<tr>
 			<td>Sent type:</td>
@@ -56,17 +56,17 @@
 		</tr>
 		<tr>
 			<td>Original type:</td>
-			<td>{{strtoupper($image_data->extension)}}</td>
+			<td>{{strtoupper($image->imageData->extension)}}</td>
 		</tr>
-		@if($image_data->extension != 'png')
+		@if($image->imageData->extension != 'png')
 		<tr>
-			<td>{{strtoupper($image_data->extension)}} size:</td>
-			<td>{{round($image_data->size/1024, 2)}} KB</td>
+			<td>{{strtoupper($image->imageData->extension)}} size:</td>
+			<td>{{round($image->imageData->size/1024, 2)}} KB</td>
 		</tr>
 		@endif
 		<tr>
 			<td>PNG size:</td>
-			<td>{{round($image_data->png_size/1024, 2)}} KB</td>
+			<td>{{round($image->imageData->png_size/1024, 2)}} KB</td>
 		</tr>
 		<tr>
 			<td>Sent at:</td>
@@ -87,7 +87,7 @@
            	 	</ul>
         	</div>
         @endif
-		<form method="post" action="{{route('received.destroy', $image->id)}}">
+		<form method="post" action="{{route('admin.sent-images.destroy', $image->id)}}">
 			{{csrf_field()}}
 			<input type="hidden" name="_method" value="delete">
 			<button class="btn btn-danger btn-margin-15" value="submit" onclick="buttonSubmit(this)">Delete image</button>

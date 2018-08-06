@@ -57,7 +57,7 @@ class AdminUsersController extends Controller
         $images = $user->images;
         
         //Ako postoje primljene slike spoji ih i sortiraj za korisnikovim slikama
-        if($received_images = ReceivedImages::whereTo_user($user->id)->get()){
+        if($received_images = $user->received_images){
 
             $all_images = $images->merge($received_images); 
             
@@ -100,7 +100,8 @@ class AdminUsersController extends Controller
         }
 
         //Brisanje primljenih slika iz baze
-        $received_images = ReceivedImages::whereTo_user($id)->get();
+        //$received_images = ReceivedImages::whereTo_user($id)->get();
+        $received_images = User::findOrFail($id)->received_images;
         if($received_images)
         {
             foreach($received_images as $received_image)

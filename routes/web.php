@@ -57,6 +57,7 @@ Route::resource('/admin/images', 'AdminImagesController')->names([
 	'edit' => 'admin.images.edit'
 ]);
 
+Route::delete('sent/images/{image_id}', 'AdminImagesController@destroy_sent')->name('admin.sent-images.destroy');
 Route::get('admin/images/sent/{image_id}', 'AdminImagesController@show_sent');
 
 
@@ -72,7 +73,7 @@ Route::resource('/images', 'UserImagesController');
 
 /*
 |-------------------------------------------------
-| SendReceiveImageController routes
+| SendReceiveImageController user routes
 |-------------------------------------------------
 */
 

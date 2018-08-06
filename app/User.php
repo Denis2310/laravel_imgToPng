@@ -30,6 +30,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Image');
     }
 
+    public function received_images(){
+
+        return $this->hasMany('App\SendImage', 'to_user');
+    }
+
     //Provjera da li je user admin (Admin Middleware)
     public function isAdmin(){
 

@@ -24,8 +24,8 @@
 <div class="col-md-6 image-download-container">
 
 	<ul>
-		@if($image_data->extension != "png")
-		<li><a href="{{action('DownloadController@download_recv_image', [$image->id, true])}}">Download {{strtoupper($image_data->extension)}}</a></li>
+		@if($image->imageData->extension != "png")
+		<li><a href="{{action('DownloadController@download_recv_image', [$image->id, true])}}">Download {{strtoupper($image->imageData->extension)}}</a></li>
 		@endif
 		<li><a href="{{action('DownloadController@download_recv_image', $image->id)}}">Download PNG</a></li>
 
@@ -52,11 +52,11 @@
 		</tr>
 		<tr>
 			<td>Original type:</td>
-			<td>{{strtoupper($image_data->extension)}}</td>
+			<td>{{strtoupper($image->imageData->extension)}}</td>
 		</tr>
 		<tr>
 			<td>PNG size:</td>
-			<td>{{round($image_data->png_size/1024, 2)}} KB</td>
+			<td>{{round($image->imageData->png_size/1024, 2)}} KB</td>
 		</tr>
 		<tr>
 			<td>Received at:</td>
