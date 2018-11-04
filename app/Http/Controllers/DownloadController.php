@@ -1,16 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-Use App\Image;
+use App\Image;
 use App\SendImage as ReceivedImage;
-
 use Illuminate\Support\Facades\Storage;
-
-
 
 
 class DownloadController extends Controller
@@ -47,6 +42,10 @@ class DownloadController extends Controller
                     $image_real_name = substr($image_real_name,0,-3) . $image->extension;
 
                     return response()->download('storage/images/'. $image->user_id .'/uploaded/'. $image_real_name, $image_real_name)->deleteFileAfterSend(true);
+                }
+                else {
+
+                    return redirect()->back()->withErrors(['File can\'t be downloaded.']);
                 }
             }
 

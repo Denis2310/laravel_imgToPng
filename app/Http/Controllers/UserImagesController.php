@@ -41,8 +41,14 @@ class UserImagesController extends Controller
             {
                 $all_images->push($image);
             }
+            
+            $images = $all_images->sortBy(function($image){
+
+                return $image->created_at;
+            });
         }
-        
+
+       
         return view('user.images', compact('images'));
     }
 
@@ -82,7 +88,8 @@ class UserImagesController extends Controller
         {
             $result = check_extension_and_convert($image, $user, $time);
 
-            if($result === true)
+            //mAKNIO JEDNU OZNAKU =
+            if($result == true)
             {
                 //Spremanje originalne slike
                 return save_image_to_database($image, $user, $time);
@@ -141,15 +148,15 @@ class UserImagesController extends Controller
         {
             $image->user_id = 0;
             $image->save();
-            return redirect('/images');
         }
         else
         {
             //Slika nije poslana obriši ju iz baze podataka
             $image->delete();
-            return redirect('/images');            
+        
         }
-                   
+ 
+        return redirect('/images');                      
     }
 } // Kraj kontrolera
 
@@ -172,6 +179,7 @@ function check_extension_and_convert($image, $user, $time){
     //Ukloni ekstenziju
     $image_name_without_extension = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
     $image_name_png = $time . $image_name_without_extension .'.png';
+    
     $extension = $image->getClientOriginalExtension();
 
     switch($extension){
@@ -179,7 +187,7 @@ function check_extension_and_convert($image, $user, $time){
         //Bmp baca gresku za monokromatski bitmap
         case 'bmp': 
             try {
-                $original_image = imagecreatefrombmp($image->path()); break;
+                $original_image = imagecreatefrombmp($image->path()); break; //image->path vraca tmp path
                 } 
             catch (\Exception $e){
 

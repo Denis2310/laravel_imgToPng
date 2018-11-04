@@ -21,7 +21,7 @@
     <th>Registered at</th>
     <th>Role</th>
   </tr>
-  @if($users)
+  @if(count($users) > 0)
   @foreach($users as $user)
     <tr class="clickable" data-url="{{route('admin.users.show', $user->id)}}">
       <td>{{$user->id}}</td>

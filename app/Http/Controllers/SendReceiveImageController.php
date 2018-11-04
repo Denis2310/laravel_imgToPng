@@ -26,6 +26,7 @@ class SendReceiveImageController extends Controller
 
         $user = Auth::user();
         $received_images = $user->received_images;
+        
         return view('user.received', compact('received_images'));
     }
 
@@ -68,13 +69,14 @@ class SendReceiveImageController extends Controller
         $receiver_email = $request->email;
         $receiver = User::where('email', $receiver_email)->firstOrFail();
 
-        if($user= SentReceivedImages::where(['image_id'=>$image->id, 'to_user'=>$receiver->id])->exists())
+        if($user = SentReceivedImages::where(['image_id'=>$image->id, 'to_user'=>$receiver->id])->exists())
         {
             return redirect()->back()->withErrors(['This image was already sent to this user.']);
         }
 
-        $receiver_email = $request->email;
-        $receiver = User::where('email', $receiver_email)->firstOrFail();
+        //Zakomentiro jer ima duplo --- OBRISATI!!!!!!!!!!!!!!
+        //$receiver_email = $request->email;
+        //$receiver = User::where('email', $receiver_email)->firstOrFail();
 
         //Putanja slike koja se šalje, putanja gdje se sprema slika
         if(Storage::copy('public/images/'.$image->user_id.'/uploaded/'.$image->path, 'public/images/'.$receiver->id.'/received/'.$image->path))
@@ -118,6 +120,7 @@ class SendReceiveImageController extends Controller
         
         //Obriši primljenu sliku
         Storage::delete('public/images/'.$image->to_user.'/received/'.$image->path);
+        
         //Obriši iz tablice primljenih slika
         $image->delete();
         

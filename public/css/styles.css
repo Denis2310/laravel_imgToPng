@@ -8,6 +8,10 @@ a:hover{
 	text-decoration: none;
 }
 
+h4{
+	margin-top: 20px;
+}
+
 button{
 	color: rgba(0,0,0,.5);
 
@@ -29,10 +33,6 @@ input[type="file"] {
 	display: none;
 }
 
-h4{
-	margin-top: 20px;
-}
-
 .form-control:focus{
 	border-color: DimGray; 
     -webkit-box-shadow: none;
@@ -45,13 +45,6 @@ h4{
 	color: #212529;
 }
 
-/*.back-button{
-	position:absolute;
-	top: 25px;
-	left:25px;
-	height:30px;
-	width:30px;
-}*/
 
 					/****Alert div styles***/
 
@@ -87,6 +80,7 @@ div.alert ul{
 .top-navbar{
 	z-index: 2;
 }
+
 
 .nav-shadow{
 	-webkit-box-shadow: 0px 3px 9px 0px rgba(209,209,209,1);
@@ -163,11 +157,19 @@ div.card-header:first-child{
 }
 
 .nav-home ul li{
+	border-left: 5px solid white;
+	margin-top: 1px;
 	padding: 10px 20px;
 }
 
 .nav-home li.active{
+	background-color: lightgray;
 	border-left: 5px solid DimGray;
+	color: rgba(0,0,0, 0.7);
+}
+
+.nav-home a:hover{
+	color: rgba(0,0,0, 0.5);
 }
 
 					/*******Upload view********/

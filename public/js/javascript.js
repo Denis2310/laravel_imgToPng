@@ -33,12 +33,17 @@ $("span.close").click(function(){
 });
 
 
-$('.nav-home li').click(function () {
+/*$('.nav-home li').click(function () {
     $('.nav-home li').not(this).removeClass('active');
     $(this).addClass('active');
-});
+});*/
 
 
+
+ $(".nav-home li").not('.active').hover(function(){
+      $(this).toggleClass('active');
+  });
+ 
 //Prikaz imena odabrane slike za učitavanje
 $('#inputImage').change(function() {
    return $(".selected-file-name").text('Selected file: '+this.files[0].name);

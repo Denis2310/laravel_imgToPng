@@ -6,9 +6,9 @@
         <!-- left navigation bar -->
         <nav class="col-md-2 col-sm-4 nav-home">
             <ul>
-                <li><a href="/images">My Images</a></li>
-                <li><a href="/images/create">Upload Image</a></li>
-                <li><a href="/received">Received</a></li>        
+               <a href="/images"> <li class="{{Request::is('images')? 'active' : ''}}">My Images</li> </a>
+               <a href="/images/create"> <li class="{{Request::is('images/create')? 'active' : ''}}">Upload Image</li> </a>
+               <a href="/received"> <li class="{{Request::is('received')? 'active' : ''}}">Received</li>  </a>      
             </ul>
         </nav>
 

@@ -16,7 +16,9 @@ class AdminImagesController extends Controller
 
     //Sve rute moraju proći middleware admin
     public function __construct(){
-        return $this->middleware('admin');
+        
+        $this->middleware('auth');
+        $this->middleware('admin');
     }
 
 
@@ -24,6 +26,7 @@ class AdminImagesController extends Controller
     public function index()
     {
         $images = Image::all()->where('user_id', '>', 0);
+
         if($sent_images = SentImages::all())
         {
             $all_images = collect();
@@ -114,6 +117,7 @@ class AdminImagesController extends Controller
         return redirect('/admin/images');
     }
 
+    //Brisanje slike iz tablice poslanih/primljenih slika
     public function destroy_sent($id)
     {
 
@@ -137,6 +141,7 @@ class AdminImagesController extends Controller
         
         //Obriši primljenu sliku
         Storage::delete('public/images/'.$image->to_user.'/received/'.$image->path);
+        
         //Obriši iz tablice primljenih slika
         $image->delete();
         

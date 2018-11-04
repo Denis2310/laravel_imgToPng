@@ -18,7 +18,9 @@ class AdminUsersController extends Controller
 
     //Sve rute moraju proći middleware admin
     public function __construct(){
-        return $this->middleware('admin');
+        
+        $this->middleware('auth');
+        $this->middleware('admin');
     }
 
 
@@ -56,7 +58,7 @@ class AdminUsersController extends Controller
         $user = User::findOrFail($id);
         $images = $user->images;
         
-        //Ako postoje primljene slike spoji ih i sortiraj za korisnikovim slikama
+        //Ako postoje primljene slike spoji ih i sortiraj sa korisnikovim slikama
         if($received_images = $user->received_images){
 
             $all_images = $images->merge($received_images); 
@@ -70,7 +72,7 @@ class AdminUsersController extends Controller
     }
 
 
-
+/*
     public function edit($id)
     {
 
@@ -83,7 +85,7 @@ class AdminUsersController extends Controller
         //
     }
 
-
+*/
 
     //Brisanje korisnika
     public function destroy($id)
@@ -102,6 +104,7 @@ class AdminUsersController extends Controller
         //Brisanje primljenih slika iz baze
         //$received_images = ReceivedImages::whereTo_user($id)->get();
         $received_images = User::findOrFail($id)->received_images;
+        
         if($received_images)
         {
             foreach($received_images as $received_image)

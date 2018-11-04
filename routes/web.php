@@ -58,12 +58,13 @@ Route::resource('/admin/images', 'AdminImagesController')->names([
 ]);
 
 Route::delete('sent/images/{image_id}', 'AdminImagesController@destroy_sent')->name('admin.sent-images.destroy');
+
 Route::get('admin/images/sent/{image_id}', 'AdminImagesController@show_sent');
 
 
 /*
 |-------------------------------------------------
-|User Image routes
+|UserImages Controller routes
 |-------------------------------------------------
 */
 

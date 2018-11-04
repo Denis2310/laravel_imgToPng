@@ -15,7 +15,7 @@
 	@endif
 
 <div class="images-container">
-@if($images)
+@if(count($images) > 0)
 @foreach($images as $image)
 <div class="images-container-item hoverable">
 	@if($image->to_user)

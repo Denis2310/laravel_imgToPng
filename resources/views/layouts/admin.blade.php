@@ -6,8 +6,8 @@
         <!-- left navigation bar -->
         <nav class="col-md-2 col-sm-4 nav-home">
             <ul>
-                <li><a href="/admin/users">Users</a></li>
-                <li><a href="/admin/images">Images</a></li>
+               <a href="/admin/users"> <li class="{{Request::is('admin/users')? 'active' : ''}}">Users</li> </a>
+               <a href="/admin/images"> <li class="{{Request::is('admin/images')? 'active' : ''}}">Images</li> </a>
             </ul>
         </nav>
 

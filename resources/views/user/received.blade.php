@@ -13,7 +13,7 @@
 	@endif
 
 <div class="images-container">
-@if($received_images)
+@if(count($received_images) > 0)
 @foreach($received_images as $image)
 <div class="images-container-item hoverable">
 
