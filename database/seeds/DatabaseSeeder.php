@@ -8,17 +8,8 @@ class DatabaseSeeder extends Seeder {
 	 *
 	 * @return void
 	 */
-	public function run() {
-		DB::table('roles')->insert([
-			'name' => 'Administrator',
-			'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-			'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-		]);
-
-		DB::table('roles')->insert([
-			'name' => 'User',
-			'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-			'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-		]);
+	public function run()
+    {
+        $this->call([RolesTableSeeder::class]);
 	}
 }
